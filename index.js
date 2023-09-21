@@ -1,6 +1,7 @@
 const express = require('express');
 const auth = require("./auth.js");
 const fillinfo = require("./infoadder.js");
+const ride = require("./ride.js")
 const fs = require('fs');
 
 const app = express();
@@ -25,10 +26,7 @@ auth.managepost(app)
 
 //Send the location back to map
 //TODO:Make GPS Navigation
-app.get('/pos/:lat/:lng', (req, res) => {
-  const { lat, lng } = req.params;
-  res.redirect(`/map?lat=${lat}&lng=${lng}`);
-})
+app.get('/pos', ride.updateLoc)
 
 
 //Load all pages and exception for login features

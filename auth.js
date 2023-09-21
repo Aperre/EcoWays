@@ -16,6 +16,11 @@ auth.token.create = (user)=>{
     return key;
 }
 
+auth.token.get = (req)=>{
+  if (!req.headers.cookie) return false;
+  return decodeURIComponent(req.headers.cookie.split("=")[1])
+}
+
 auth.token.validate = (token)=>{
     let OAuth = JSON.parse(fs.readFileSync(__dirname + "/db/OAuth.json"))
     return OAuth[token];
@@ -29,14 +34,18 @@ auth.token.delete = (token)=>{
 
 auth.connected = (req, res) => {
   if (!req.headers.cookie) return false;
-  let SessionToken = req.headers.cookie.split("=")[1]
-  if (!auth.token.validate(SessionToken)) {res.clearCookie('SessionToken'); return false};
+  let SessionToken = decodeURIComponent(req.headers.cookie.split("=")[1])
+  if (!auth.token.validate(SessionToken)) {console.log("checking"); res.clearCookie('SessionToken'); return false};
   let SessionInfo = SessionToken.split(".")
   SessionInfo = {
     "username": Buffer.from(SessionInfo[0], "base64").toString("ascii"),
     "creationTime": parseInt(Buffer.from(SessionInfo[2], "base64").toString("ascii"))
   }
-  if (Date.now() - SessionInfo["creationTime"] > 2600000000) {res.clearCookie('SessionToken'); auth.token.delete(SessionToken); return false};
+  if (Date.now() - SessionInfo["creationTime"] > 2600000000) {
+    console.log("Too old")
+    res.clearCookie('SessionToken'); auth.token.delete(SessionToken); 
+    return false
+  };
   return SessionInfo;
 }
 
@@ -60,7 +69,7 @@ auth.managepost = (app)=>app.use('/auth/:authtype',(req,res)=>{
       password = bcrypt.hashSync(password,salt)
       db[username]={"username":username,"password":password,"phone":phone,"data":{"car_model":car_model,"points":0}}
       fs.writeFileSync(__dirname + "/db/users.json",JSON.stringify(db))
-      res.cookie("SessionToken",auth.token.create(username),{maxAge:2600000000});
+      res.cookie("SessionToken",auth.token.create(username));
       res.redirect("/authenticated")
     } 
   
@@ -69,7 +78,7 @@ auth.managepost = (app)=>app.use('/auth/:authtype',(req,res)=>{
       if (!finduserinfo(username)) {res.redirect("/login?error=Incorrect%20Username%20Or%20Password"); return;} //return if its the wrong username 
       let salt = bcrypt.getSalt(db[username]["password"]);
       if (bcrypt.hashSync(password,salt)!=db[username]["password"]) {res.redirect("/login?error=Incorrect%20Username%20Or%20Password"); return;}; //return if its the wrong password
-      res.cookie("SessionToken",auth.token.create(username),{maxAge:2600000000});
+      res.cookie("SessionToken",auth.token.create(username));
       res.redirect("/authenticated")
     }
     

@@ -43,34 +43,30 @@
         console.log("Your browser doesn't support geolocation feature!")
     } else {
         setInterval(() => {
-            navigator.geolocation.getCurrentPosition(getPosition)
+            navigator.geolocation.getCurrentPosition(getPosition,notLocal)
         }, 5000);
     }
 
-    var marker, circle;
-
+    var circle;
+    function notLocal(){
+        alert("Either you did not accept the GPS permission or you are not running this locally so this feature will not work as it requires HTTPS")
+    }
     function getPosition(position){
         // console.log(position)
         var lat = position.coords.latitude
         var long = position.coords.longitude
         var accuracy = position.coords.accuracy
 
-        if(marker) {
-            map.removeLayer(marker)
-        }
-
         if(circle) {
             map.removeLayer(circle)
         }
 
-        marker = L.marker([lat, long])
         circle = L.circle([lat, long], {radius: accuracy})
 
-        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+        var featureGroup = L.featureGroup([circle]).addTo(map)
 
         map.fitBounds(featureGroup.getBounds())
-
-        console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
+        fetch(`/pos?lat=${lat}&long=${long}`)
     }
 
 </script>

@@ -1,6 +1,12 @@
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
 module.exports = (static, userdata) => {
     //Username/profile instead of login buttom
-    static.replace("</body", `<script>if (document.cookie) {
+    static = static.replace("</body", `<script>if (document.cookie) {
     let username = atob(document.cookie.split("=")[1].split(".")[0])
     let loginbutton = document.getElementById("user")
     loginbutton.href = "/authenticated"
@@ -9,9 +15,10 @@ module.exports = (static, userdata) => {
     </body>`)
 
     //adding Info as needed
-    static.replace("${USERNAME}", userdata.username)
-    static.replace("${PHONE}",userdata.phone)
-    static.replace("${CARMODEL}",userdata.car_model)
+    static = replaceAll(static, "${USERNAME}", userdata.username)
+    static = replaceAll(static, "${PHONE}", userdata.phone)
+    static = replaceAll(static, "${CARMODEL}", userdata.data.car_model)
+    static = replaceAll(static, "${POINTS}", userdata.data.points)
 
     return static
 }
