@@ -1,0 +1,204 @@
+*{
+    margin:0;
+    width: 100%;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;  
+    
+}
+
+.homescreen{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+
+.topscreen{
+    width:100%;
+    height:10vh;
+    display: flex;
+    justify-content: space-between;
+    background-color: #101010;
+    align-items: center;
+
+
+    
+}
+.restofhome{
+    width:100%;
+    height:90vh;
+    display:flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    align-items: center;
+    text-align: center;
+}
+.restofhome h4{
+    height:400px;
+    width:624px;
+    font-size:40px;
+    margin-top:70px;
+    margin-bottom:70px;
+    border: 3px #101010 dotted;
+    border-radius:30px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restofhome #model {
+    font-family: 'Roboto', sans-serif;  
+    margin-top:20px;
+}
+.restofhome #model h1{
+    font-family: 'Roboto', sans-serif;  
+    font-weight: bolder;
+}
+
+
+.restofhome button{
+   width:160px;
+   height:100px;
+   background-color: rgb(0, 211, 211);
+   color:white;
+   border-radius: 30px;
+   margin-bottom: 70px;
+}
+
+.tabsapp{
+    margin-top:30px;
+    height:7vh;
+    max-width:700px;
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    border-radius: 30px;
+    align-items: center;
+    position:fixed;
+    bottom:10px;
+    
+}
+.tabsapp a{
+    font-size:40px;
+    width: fit-content;
+}
+
+
+.logotop h1{
+    margin-left:30px;
+}
+
+.green{
+    color:lawngreen;
+}
+
+.white
+{
+    color:white;
+    font-weight:lighter;
+}
+.black
+{
+    color:black;
+}
+
+
+a{
+    text-decoration: none;
+    color:white;
+}
+
+.navigation{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navigation button{
+    width:300px;
+    border-radius:20px;
+    margin-right:30px;
+    
+}
+
+
+.roboto{
+    font-family: 'Roboto', sans-serif;  
+}
+
+
+
+@media only screen and (max-width: 910px){
+   
+    
+    .logotop h1{
+        font-size:26px;
+    }
+    .navigation button{
+        width:100px;
+    }
+    .navigation{
+        align-items: center;
+    }
+    .tabsapp{
+        width:90%;
+    }
+  }
+
+
+  @media only screen and (max-width: 600px){
+   
+    .navigation button{
+        width:100px;
+    }
+    .navigation{
+        align-items: center;
+    }
+    .navigation a{
+        font-size:12px;
+    }
+    .restofhome h4{
+        height:253px;
+        width:394px;
+        margin-top:70px;
+        margin-bottom:70px;
+    }
+   
+  }
+
+
+  @media only screen and (max-width:400px){
+    h4{
+        font-size:20px !important;
+    }
+    .navigation button{
+        width:100px;
+        margin-right:0px !important;
+    }
+    .logotop h1{
+        margin-left: 4px;
+        font-size:20px
+    }
+    .restofhome h4{
+        height:193px;
+        width:300px;
+        margin-top:70px;
+        margin-bottom:70px;
+    }
+    
+    .restofhome button{
+        width:160px;
+        height:130px;
+        background-color: rgb(0, 211, 211);
+        color:white;
+        border-radius: 30px;
+     }
+     .restofhome div{
+        margin-top:60px;
+     }
+  }

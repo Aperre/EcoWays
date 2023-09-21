@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noticia+Text:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noticia+Text:wght@700&family=Roboto:wght@700&display=swap" rel="stylesheet">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Taviraj&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Inline+One&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/stylesheet/style9.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="UTF-8"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    </head>
+    <title>EcoWays</title>
+
+    <body>
+        <div class="homescreen">
+            <div class="topscreen">
+                <div class="logotop">
+                    <h1><span class="green">Eco</span><span class="white">Ways</span>🍃</h1>
+                </div>
+                <div class="navigation">
+                    <a href="./index" class="roboto">Home🏠</a>
+                    <a href="./shop" class="roboto">Shop🛒</a>
+                    <a href="./login" id="user" class="roboto">Login🔐</a>
+                </div>
+            </div>
+            <div class="restofhome">
+                <div id="model">
+                    <p>Your car model</p>
+                    <h1>${CARMODEL}</h1>
+                </div>
+                <img id="carfleet" src="/images/${CARMODEL}.png">
+               <div class="info"> 
+                    <div class="speed">
+                        <canvas width="400" height="400"></canvas>
+                        <h3>[Insert Average Speed]</h1>
+                        <p>Average Speed🟢</p>
+                    </div>
+                    <div class="carbonemissions">
+                        <img src="/images/co2.png">
+                        <h3>[Insert Carbon Emission Value]</h1>
+                        <p>Dangerous Level🔴</p>
+                    </div>
+                   
+                    <div class="carbonemissions">
+                        <img src="/images/distance.png">
+                        <h3>[Insert Distance Travelled]</h1>
+                        <p>Distance Travelled🟠</p>
+                    </div>
+                    <div class="carbonemissions">
+                        <img src="/images/.png">
+                        <h3>[Insert Gas Used]</h1>
+                        <p>➕Net Points➕</p>
+                    </div>
+               </div>
+                <div class="tabsapp">
+                    <a id="car1" href="./drivermode">🚗</a>
+                    <a href="./progress">💰</a>
+                    <a href="./reports">📊</a>
+                    <a href="./ecomode">🌿</a>
+                </div>
+                
+               
+            </div>
+            
+        </div>
+
+
+        <script>
+            const sel = document.querySelector.bind(document);
+
+const canvas = sel('canvas');
+const c = canvas.getContext('2d');
+
+const W = canvas.width;
+const H = canvas.height;
+const MIDX = Math.floor(W/2);
+const MIDY = Math.floor(H/2);
+const MINSPEED = 180;
+const MAXSPEED = 340;
+const JITTER = 0.5;
+const ACCELERATION = 0.2;
+let prev = null;
+let speed = MINSPEED;
+
+requestAnimationFrame(updateMeter);
+
+function updateMeter(curr)
+{
+  if(!prev)prev = curr;
+
+  const delta = curr - prev;
+  prev = curr;
+  speed += delta * ACCELERATION;
+
+  if(speed > MAXSPEED)
+  {
+    speed = MAXSPEED - Math.random() * delta * JITTER;
+  }
+  else if(speed < MINSPEED)
+  {
+    speed = MINSPEED + Math.random() * delta * 0.1;
+  }
+
+  meter(speed);
+
+  requestAnimationFrame(updateMeter);
+}
+
+//meter(280, 100, 100);
+
+function meter(angle = 280, centerX = MIDX, centerY = MIDY, radius = 100)
+{
+  c.fillStyle = '#444444';
+  c.fillRect(0, 0, W, H);
+
+  spokes(centerX, centerY, 5, 85, 5, 345, 185, 2, '#ffff00')
+  spokes(centerX, centerY);
+  finalLine(angle, '#ff0000', 4, centerX, centerY);
+  arc(centerX, centerY, '#ff00ff', 3, 180, 350, radius - 80, 'butt');
+  arc(centerX, centerY, '#00ACC1', 3, 180, 350, radius - 85, 'butt');
+  arc(centerX, centerY, '#ff00ff', 8, 180, 340, radius);
+  arc(centerX, centerY, '#ffff00', 5, 180, angle, radius);
+  c.font = '1.6rem Roboto';
+  c.fillStyle = '#ffffff';
+  c.fillText(Math.floor(angle), centerX - 20, centerY + 30);
+}
+
+function d(x){ return (Math.PI / 180) * x; }
+
+function finalLine(angle = 340, color = '#ff0000', width = 4, centerX = MIDX, centerY = MIDY)
+{
+  let p1 = polarToCartesian(15, angle);
+  let p2 = polarToCartesian(100, angle);
+  c.beginPath();
+  c.strokeStyle = color;
+  c.lineWidth = width;
+  c.moveTo(centerX + p1.x, centerY +  p1.y);
+  c.lineTo(centerX + p2.x, centerY +  p2.y);
+  c.stroke();
+}
+
+function arc(centerX = MIDX, centerY = MIDY, arcColor = '#ff00ff', arcWidth = 8, startAngle = 180, endAngle = 340, radius = MIDX - 100, arcCap = 'round')
+{
+  c.beginPath();
+  c.strokeStyle = arcColor;
+  c.lineWidth = arcWidth;
+  c.lineCap = arcCap;
+  c.arc(centerX, centerY, radius, d(startAngle), d(endAngle), false);
+  c.stroke();
+}
+
+function polarToCartesian(radius, angle)
+{
+  return {x: radius * Math.cos(d(angle)), y: radius * Math.sin(d(angle))};
+}
+
+function spokes(centerX = MIDX, centerY = MIDY, stepAngle = 20, radius = 80, spokeLength = 10, last = 350, startAngle = 180, spokeWidth = 4, spokeColor = '#00ffff')
+{
+  c.beginPath();
+  c.strokeStyle = spokeColor;
+  c.lineWidth = spokeWidth;
+  c.lineCap = 'butt';
+
+  for(let currAngle = startAngle; currAngle < last; currAngle += stepAngle)
+  {
+    let p1 = polarToCartesian(radius, currAngle);
+    c.moveTo(centerX + p1.x, centerY + p1.y);
+    let p2 = polarToCartesian(radius + spokeLength, currAngle);
+    c.lineTo(centerX + p2.x, centerY + p2.y);
+  }
+  c.stroke();
+}
+        </script>
+    </body>
+</html>
