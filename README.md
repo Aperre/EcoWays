@@ -1,9 +1,14 @@
 # EcoWays 🌿
 ### Project for VirtualHackathon.
 This is a prototype of an app idea called EcoWays 🌿. It is unfinished but it will be finished if this project passes the qualification round
+### Initialization:
+First install the required modules:
+```
+$ npm i
+```
 To run:
 ```
-$ node index.js
+$ npm run run
 ```
 It will run in port 8080
 or
