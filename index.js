@@ -1,6 +1,7 @@
 const express = require('express');
 const auth = require("./auth.js");
-const ride = require("./ride.js")
+const ride = require("./ride.js");
+const { readdirSync } = require('fs');
 
 const app = express();
 exports.app = app;
@@ -10,6 +11,12 @@ app.use(express.json())
 
 //Login and register
 auth.managepost(app)
+
+//Run all js code in ./pages
+let codedir = readdirSync(__dirname+"/pages/")
+for (let i = 0; i<codedir.length; i++) {
+  require("./pages/"+codedir[i])
+}
 
 //Send the location back to map
 //TODO:Make GPS Navigation

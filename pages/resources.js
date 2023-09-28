@@ -1,4 +1,7 @@
 const { app } = require('../index.js');
+let dir = __dirname.split("/")
+dir.pop()
+__dirname = dir.join("/")
 
 //Load all pages and exception for login features
 let needLogin = [""]

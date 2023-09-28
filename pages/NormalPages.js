@@ -2,6 +2,9 @@ const auth = require("../auth.js");
 const fillinfo = require("../infoadder.js");
 const fs = require('fs');
 const { app } = require('../index.js');
+let dir = __dirname.split("/")
+dir.pop()
+__dirname = dir.join("/")
 
 app.get('/:page', (req, res) => {
   let SessionInfo = auth.connected(req, res);

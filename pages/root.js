@@ -1,5 +1,8 @@
 const fs = require('fs');
 const { app } = require('../index.js');
+let dir = __dirname.split("/")
+dir.pop()
+__dirname = dir.join("/")
 
 //send index.html for root
 app.get('/', (req, res) => {
