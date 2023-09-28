@@ -17,8 +17,7 @@ body{
     justify-content: space-evenly;
     height:500px;
     overflow-x:visible !important;
-    margin-bottom: 30px;
-    
+    margin: 20px 10px 20px 10px;
     
 }
 .red{
@@ -36,7 +35,8 @@ body{
     padding:10px 10px 10px 10px;
     box-shadow: -1px 3px 4px;
     overflow-x:visible !important;
-    
+    margin-right: 20px;
+    margin-left:20px;
 
 }
 .options div img{
@@ -234,9 +234,7 @@ a{
 
 
   @media only screen and (max-width:400px){
-    h4{
-        font-size:20px !important;
-    }
+   
     .navigation button{
         width:100px;
         margin-right:0px !important;
@@ -245,12 +243,7 @@ a{
         margin-left: 4px;
         font-size:20px
     }
-    .restofhome h4{
-        height:193px;
-        width:300px;
-        margin-top:70px;
-        margin-bottom:70px;
-    }
+   
     
     .restofhome button{
         width:160px;
@@ -259,7 +252,10 @@ a{
         color:white;
         border-radius: 30px;
      }
-     .restofhome div{
+     .restofhome .tabsapp{
         margin-top:60px;
+     }
+     .navigation img{
+        display: none;
      }
   }
