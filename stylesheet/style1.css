@@ -1,6 +1,5 @@
-
-.options button:hover{
-    background-color:#009688;
+button:hover{
+    background-color: #009688;
 }
 
 *{
