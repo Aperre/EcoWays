@@ -15,6 +15,20 @@
     
     
 }
+button:hover{
+    background-color: #009688 !important;
+}
+.navigation a:hover{
+    color:lawngreen;
+}
+.navigation a{
+    transition: 0.5s ease-in-out;
+}
+*{
+    margin:0;
+    overflow-x:hidden !important; 
+    width: 100%;
+}
 
 
 
@@ -161,8 +175,18 @@ a{
 .navigation{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
-
+.navigation img{
+    height:19px;
+    width:19px;
+    margin-left: 5px;
+}
+.navigation a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .navigation button{
     width:300px;
     border-radius:20px;
