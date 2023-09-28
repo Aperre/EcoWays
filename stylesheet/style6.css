@@ -12,17 +12,31 @@ body{
 
 .homescreen{
     width:100%;
-    height:100vh;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     align-items: center;
     
     
 }
+button:hover{
+    background-color: #009688 !important;
+}
+.navigation a:hover{
+    color:lawngreen;
+}
+.navigation a{
+    transition: 0.5s ease-in-out;
+}
+*{
+    margin:0;
+    overflow-x:hidden !important; 
+    width: 100%;
+}
 
 .topscreen{
     width:100%;
-    height:10vh;
+    height:80px;
     display: flex;
     justify-content: space-between;
     background-color: #101010;
@@ -33,12 +47,14 @@ body{
 }
 .restofhome{
     width:100%;
-    height:83vh;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
   
 }
 
@@ -78,10 +94,20 @@ a{
     text-decoration: none;
     color:white;
 }
-
+.navigation img{
+    height:19px;
+    width:19px;
+    margin-left: 5px;
+}
+.navigation a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .navigation{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 .navigation button{
@@ -177,7 +203,7 @@ form #car-model{
 
 .login1{
     background-color: white;
-    height: 70vh;
+    height: 600px;
     max-width: 1100px;
     border-radius: 30px;
     display: flex;
@@ -186,6 +212,8 @@ form #car-model{
     justify-content: space-evenly;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+    margin-bottom: 50px;
     
 }
 
@@ -241,7 +269,9 @@ form #car-model{
         margin-left: 4px;
         font-size:20px
     }
-
+    .navigation img{
+        display: none;
+    }
     
   }
 

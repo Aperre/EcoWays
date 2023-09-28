@@ -3,6 +3,30 @@
     width: 100%;
   
 }
+.navigation img{
+    height:19px;
+    width:19px;
+    margin-left: 5px;
+}
+.navigation a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+button:hover{
+    background-color: #009688 !important;
+}
+.navigation a:hover{
+    color:lawngreen;
+}
+.navigation a{
+    transition: 0.5s ease-in-out;
+}
+*{
+    margin:0;
+    overflow-x:hidden !important; 
+    width: 100%;
+}
 body{
     display: flex;
     flex-direction: column;
@@ -12,7 +36,7 @@ body{
 
 .homescreen{
     width:100%;
-    height:100vh;
+    height:900px;
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -22,7 +46,7 @@ body{
 
 .topscreen{
     width:100%;
-    height:10vh;
+    height:80px;
     display: flex;
     justify-content: space-between;
     background-color: #101010;
@@ -33,7 +57,7 @@ body{
 }
 .restofhome{
     width:100%;
-    height:90vh;
+    height:820px;
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -53,7 +77,7 @@ body{
 
 .tabsapp{
     margin-top:30px;
-    height:7vh;
+    height:fit-content;
     max-width:700px;
     display: flex;
     justify-content: space-around !important;
@@ -100,6 +124,7 @@ a{
 .navigation{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 .navigation button{
@@ -240,6 +265,9 @@ a{
     .logotop h1{
         margin-left: 4px;
         font-size:20px
+    }
+    .navigation img{
+        display: none;
     }
    
    
