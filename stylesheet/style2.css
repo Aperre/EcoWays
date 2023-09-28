@@ -24,7 +24,7 @@ body{
 
 .homescreen{
     width:100%;
-    height:100vh;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,7 @@ body{
 
 .topscreen{
     width:100%;
-    height:10vh;
+    height:80px;
     display: flex;
     justify-content: space-between;
     background-color: #101010;
@@ -45,7 +45,7 @@ body{
 }
 .restofhome{
     width:100%;
-    height:90vh;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -80,7 +80,7 @@ body{
 
 .tabsapp{
     margin-top:30px;
-    height:7vh;
+    height:fit-content;
     max-width:700px;
     display: flex;
     justify-content: space-around;
@@ -215,5 +215,8 @@ a{
      }
      .restofhome div{
         margin-top:60px;
+     }
+     .navigation img{
+        display: none;
      }
   }
