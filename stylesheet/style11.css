@@ -52,6 +52,8 @@ button:hover{
 }
 .feature-list{
     margin-top:40px;
+    margin-right:20px;
+    margin-left:20px;
     width:100%;
     display: flex;
     flex-direction: column;
@@ -65,16 +67,22 @@ button:hover{
 }
 .feature-list h2 ,.feature-list ul{
     width:fit-content;
+   
 }
+
 .topscreen{
     width:100%;
-    height:10vh;
+    height:80px;
     display: flex;
     justify-content: space-between;
     background-color: #101010;
     align-items: center;
 
 
+    
+}
+li{
+    overflow-x:visible !important;
     
 }
 
@@ -216,6 +224,13 @@ a{
      }
      .restofhome div{
         margin-top:60px;
+     }
+
+     .navigation img{
+        display:none;
+     }
+     li{
+        font-size: 14px !important;
      }
   }
 
