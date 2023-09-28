@@ -8,7 +8,7 @@ $ npm i
 ```
 To run:
 ```
-$ npm run
+$ npm run run
 ```
 It will run in port 8080
 or
