@@ -1,8 +1,12 @@
 button:hover{
     background-color: #009688 !important;
 }
-
-
+.navigation a:hover{
+    color:lawngreen;
+}
+.navigation a{
+    transition: 0.5s ease-in-out;
+}
 *{
     margin:0;
     overflow-x:hidden !important; 
