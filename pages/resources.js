@@ -1,5 +1,6 @@
 const { app } = require('../index.js');
-let dir = __dirname.split("/")
+//Making it compatible with windows then splitting it
+let dir = __dirname.split("\\").join("/").split("/")
 dir.pop()
 __dirname = dir.join("/")
 
