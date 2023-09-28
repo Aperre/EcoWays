@@ -7,6 +7,7 @@ body{
     flex-direction: column;
     background-color:rgb(228, 228, 228);
     font-family: 'Roboto', sans-serif;  
+    
 }
 
 .homescreen{
@@ -31,11 +32,7 @@ button:hover{
     overflow-x:hidden !important; 
     width: 100%;
 }
-.options div{
-    border:black 3px solid;
-    padding-bottom: 30px;
-    border-radius: 60px;
-   }
+
 .topscreen{
     width:100%;
     height:10vh;
@@ -66,17 +63,19 @@ button:hover{
     height:20vh;
 }
 .options{
-    height:70vh;
+    
     display: flex;
     flex-direction: row;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    height:70vh;
+    
 }
 button{
 
     
-  
+    
     width:200px;
     padding:15px 0;
     text-align:center;
@@ -90,20 +89,34 @@ button{
     overflow:hidden;
     transition: 0.5s;
   }
+  button:hover{
+    background-color: white !important;
+    color:black;
+  }
 .options div{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    max-width:500px;
+    max-width:400px;
     height:600px;
-    margin-bottom: 100px !important;
+    background-color: white;
+    padding:10px 10px 10px 10px;
+    box-shadow: -1px 3px 4px;
+    margin-left:20px;
+    
 
 }
-
+#uberide{
+    margin-right:20px;
+}
+.red{
+    color:red;
+    font-style:italic;
+}
 .options div img{
-    height: 500px;
-    width:500px;
+    height: 300px;
+    width:300px;
 }
 .progress{
     height:30px;
@@ -234,10 +247,7 @@ a{
 
   @media only screen and (max-width: 600px){
     
-    .options div img{
-        height: 400px;
-        width:400px;
-    }
+    
     
     
     .navigation button{
@@ -253,10 +263,7 @@ a{
 
 
   @media only screen and (max-width:400px){
-    .options div img{
-        height: 300px;
-        width:300px;
-    }
+   
     
 
     .navigation button{
@@ -285,19 +292,9 @@ a{
     margin-right:20px;
 
   }
-  @media only screen and (max-width: 1300px){
+  @media only screen and (max-width: 899px){
     .options div{
-        border:none;
-    
+        margin:20px 20px 20px 20px;
     }
-
 }
 
-@media only screen and (max-width: 1000px){
-    .options div{
-        border-bottom: 10px solid black!important ;
-        
-        border-radius: 0px;
-    }
-
-}
