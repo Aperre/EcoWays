@@ -27,7 +27,7 @@ button:hover{
 
 .homescreen{
     width:100%;
-    height:100vh;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -37,7 +37,7 @@ button:hover{
 
 .topscreen{
     width:100%;
-    height:10vh;
+    height:80px;
     display: flex;
     justify-content: space-between;
     background-color: #101010;
@@ -48,12 +48,14 @@ button:hover{
 }
 .restofhome{
     width:100%;
-    height:83vh;
+    height: fit-content;
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
   
 }
 
@@ -140,7 +142,7 @@ a{
 
 .login {
     background-color: white;
-    height: 60vh;
+    height: 600px;
     max-width: 400px;
     border-radius: 30px;
     display: flex;
@@ -148,6 +150,8 @@ a{
     align-items: center;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 
@@ -205,7 +209,7 @@ form #car-model{
 
 .login1{
     background-color: white;
-    height: 60vh;
+    height: 600px !important;
     max-width: 400px;
     border-radius: 30px;
     display: flex;
@@ -214,6 +218,8 @@ form #car-model{
     justify-content: center;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+    margin-bottom: 50px;
     
 }
 
@@ -269,6 +275,8 @@ form #car-model{
         margin-left: 4px;
         font-size:20px
     }
-
+    .navigation img{
+        display: none;
+    }
     
   }

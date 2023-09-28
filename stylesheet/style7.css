@@ -12,7 +12,7 @@ body{
 
 .homescreen{
     width:100%;
-    height:100vh;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     
@@ -35,7 +35,7 @@ button:hover{
 
 .topscreen{
     width:100%;
-    height:10vh;
+    height:80px;
     display: flex;
     justify-content: space-between;
     background-color: #101010;
@@ -48,7 +48,7 @@ button:hover{
     display: flex;
     flex-direction: column;
     text-align: center;
-    height:90vh;
+    height:fit-content;
 }
 .points{
     display: flex;
@@ -60,7 +60,8 @@ button:hover{
 }
 
 #shopping{
-    height:20vh;
+    height:fit-content;
+    margin-bottom:30px;
 }
 .options{
     
@@ -69,7 +70,7 @@ button:hover{
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    height:70vh;
+    height:fit-content;
     
 }
 button{
@@ -298,3 +299,8 @@ a{
     }
 }
 
+@media only screen and (max-width: 400px){
+    .navigation img{
+        display: none;
+    }
+}
