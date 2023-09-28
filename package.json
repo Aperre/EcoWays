@@ -1,0 +1,29 @@
+{
+  "name": "ecoways",
+  "version": "1.0.0",
+  "description": "This is a prototype of an app idea for driving ecofriendly etc...",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "run": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aperre/ecoways.git"
+  },
+  "keywords": [
+    "ecoways",
+    "eco",
+    "driving"
+  ],
+  "author": "Aperre, Ajaberr",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/Aperre/ecoways/issues"
+  },
+  "homepage": "https://github.com/Aperre/ecoways#readme"
+}
