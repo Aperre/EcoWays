@@ -7,7 +7,6 @@ let dir = __dirname.split("\\").join("/").split("/")
 dir.pop()
 __dirname = dir.join("/")
 
-console.log(__dirname)
 app.get('/:page', (req, res) => {
   let SessionInfo = auth.connected(req, res);
 
