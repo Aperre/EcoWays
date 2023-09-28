@@ -1,15 +1,18 @@
 button:hover{
-    background-color: #009688;
+    background-color: #009688 !important;
 }
+
 
 *{
     margin:0;
+    overflow-x:hidden !important; 
     width: 100%;
 }
 body{
     display: flex;
     flex-direction: column;
     font-family: 'Roboto', sans-serif;  
+    overflow-x:hidden !important;
 }
 
 .homescreen{
@@ -66,6 +69,17 @@ a{
 .navigation{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+}
+.navigation img{
+    height:19px;
+    width:19px;
+    margin-left: 5px;
+}
+.navigation a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navigation button{
@@ -109,6 +123,8 @@ a{
     display: flex;
     height:100vh;
     width:100%;
+    overflow-x:hidden !important; 
+   
 
 }
 #drivermode{
@@ -119,7 +135,10 @@ a{
     align-items: center;
     justify-content: center;
     text-align: center;
+    transition: 0.5s;
+  
 }
+
 
 #usermode{
     background:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url("/images/userpov.jpg");
@@ -129,6 +148,7 @@ a{
     align-items: center;
     justify-content: center;
     text-align: center;
+   
 }
 
 #drivermode button, #usermode button{
@@ -244,5 +264,9 @@ a{
     .logotop h1{
         margin-left: 4px;
         font-size:20px
+    }
+
+    .navigation img{
+        display: none;
     }
   }
