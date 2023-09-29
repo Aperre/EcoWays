@@ -10,7 +10,7 @@ module.exports = (static, userdata) => {
     let username = atob(document.cookie.split("=")[1].split(".")[0])
     let loginbutton = document.getElementById("user")
     loginbutton.href = "/authenticated"
-    loginbutton.innerHTML = username
+    loginbutton.innerHTML = username+" 😶"
     }</script>
     </body>`)
 

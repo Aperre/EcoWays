@@ -38,9 +38,9 @@ ride.updateLoc = (req, res) => {
     if (!token) return;
     let username = auth.token.validate(token)
     if (!username) return;
-    let { newloc, oldloc } = req.query;
-    let { newlat, newlong } = newloc.split("_");
-    let { oldlat, oldlong } = oldloc.split("_");
+    let { neww, old } = req.query;
+    let { newlat, newlong } = neww.split("_");
+    let { oldlat, oldlong } = old.split("_");
     speed = distance(newlat, newlong, oldlat, oldlong) * 3.6 / 5
     if (speed < 5)
         if (idleticks[username]) { idleticks[username]++ }
@@ -50,7 +50,7 @@ ride.updateLoc = (req, res) => {
         if (idleticks[username])
             idleticks[username] = 0;
     if (!speeds[username]) speeds[username] = [speed]
-    else speeds[username].append(speed);
+    else speeds[username].push(speed);
     res.send("updated")
 }
 

@@ -109,7 +109,7 @@
         }
         function getPosition(position) {
             if (!driveMode) return;
-            let o = fetch(`/pos?new=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
+            let o = fetch(`/pos?neww=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
             lat = position.coords.latitude
             long = position.coords.longitude
             let stop = o.then(function (res) { return res.text() })
