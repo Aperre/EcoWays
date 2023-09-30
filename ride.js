@@ -1,12 +1,14 @@
 const auth = require("./auth.js")
+const fs = require("fs")
 let ride = {}
-let idleticks = {}
+let idleTicks = {}
 let speeds = {}
+const ecoDriving = require("./ecodriving.js")
 
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
-function distance(lat1, lon1, lat2, lon2) {
+function calcDistance(lat1, lon1, lat2, lon2) {
     // Using the haversine formula
     // https://en.wikipedia.org/wiki/Haversine_formula
     // Assuming the radius of the earth is 6371 km
@@ -25,54 +27,70 @@ function distance(lat1, lon1, lat2, lon2) {
     return d;
 }
 
-
-ride.startRide = (req, res) => {
-    let token = auth.token.get(req);
-    if (!token) return;
-    if (!auth.token.validate(token)) return;
-
-}
-
 ride.updateLoc = (req, res) => {
+
+    //Verify user
     let token = auth.token.get(req);
     if (!token) return;
     let username = auth.token.validate(token)
     if (!username) return;
-    let { neww, old } = req.query;
-    let { newlat, newlong } = neww.split("_");
-    let { oldlat, oldlong } = old.split("_");
-    speed = distance(newlat, newlong, oldlat, oldlong) * 3.6 / 5
-    if (speed < 5)
-        if (idleticks[username]) { idleticks[username]++ }
-        else if (idleticks[username] <= 360) { idleticks[username] = 1 }
-        else { res.send("STOP") }
-    else
-        if (idleticks[username])
-            idleticks[username] = 0;
+
+    //Retrieving the location
+    let loc;
+    let { newL, old } = req.query;
+    loc = newL.split("_");
+    let newLocation = { "lat": parseInt(loc[0]), "long": parseInt(loc[1]) }
+    if (old) {
+        loc = old.split("_")
+        let oldLocation = { "lat": parseInt(loc[0]), "long": parseInt(loc[1]) }
+
+        //Check if idle
+        speed = calcDistance(newLocation["lat"], newLocation["long"], oldLocation["lat"], oldLocation["long"]) * 3.6 / 5
+    } else speed = 0;
+    if (speed < 5) {
+        if (!idleTicks[username]) idleTicks[username] = 0
+        idleTicks[username]++
+        if (idleTicks[username] >= 10) { res.send("STOP"); return; }
+    } else
+        if (idleTicks[username])
+            idleTicks[username] = 0;
+
+    //Save speed of ride
     if (!speeds[username]) speeds[username] = [speed]
     else speeds[username].push(speed);
     res.send("updated")
 }
 
 ride.stopRide = (req, res) => {
+
+    // Verify user
     let token = auth.token.get(req);
     if (!token) return;
     let username = auth.token.validate(token)
     if (!username) return;
+    // Getting average speed
     let sum = 0;
     for (let i = 0; i < speeds[username].length; i++) {
         sum += speeds[username][i];
     }
-    let averagespeed = sum / speeds[username].length;
+    let averageSpeed = sum / speeds[username].length;
+    // Saving the data + giving points
     let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
     if (!rides[username]) rides[username] = [];
-    let distancee = sum * 5 / 3.6
-    let pointsgained = 1 / averagespeed * distancee
-    rides[username].append({ "averageSpeed": averagespeed, "distance": distancee, "points": pointsgained })
+    let distance = sum * 5 / 3.6
+    let userData = auth.getUserData(username)
+    let [pointsGained, estimatedFuelUsed] = ecoDriving(
+        userData.data.car_model,
+        speeds[username],
+        averageSpeed,
+        distance
+    )
+    rides[username].push({"averageFuel":estimatedFuelUsed,"averageSpeed": averageSpeed, "distance": distance, "points": pointsGained })
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
-    db[username].data.points+=pointsgained
+    db[username].data.points += pointsGained
     fs.writeFileSync(__dirname + "/db/users.json", JSON.stringify(db))
+    res.send("saved");
 }
 
 module.exports = ride

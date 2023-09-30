@@ -10,16 +10,19 @@ app.use(express.urlencoded({ extended: 'false' }))
 app.use(express.json())
 
 //Login and register
-auth.managepost(app)
+auth.managePost(app)
 
 //Send the location back to map
 //TODO:Make GPS Navigation
 app.get('/pos', ride.updateLoc)
 
+//Sends the stop data
+app.get('/stopRide', ride.stopRide)
+
 //Run all js code in ./pages
-let codedir = readdirSync(__dirname+"/pages/")
-for (let i = 0; i<codedir.length; i++) {
-  require("./pages/"+codedir[i])
+let codeDir = readdirSync(__dirname+"/pages/")
+for (let i = 0; i<codeDir.length; i++) {
+  require("./pages/"+codeDir[i])
 }
 
 // Start the server on port 8080

@@ -60,7 +60,7 @@
                 <h1>${CARMODEL}</h1>
             </div>
             <img src="/images/${CARMODEL}.png">
-            <button id="drivebutton" onclick="toggleDrive()">
+            <button id="driveButton" onclick="toggleDrive()">
                 <h1>⚡</h1>
                 <h3>Start Drive</h3>
             </button>
@@ -94,22 +94,25 @@
 
         let driveMode = false
         function toggleDrive() {
-            let drivebutton = document.getElementById("drivebutton")
+            let driveButton = document.getElementById("driveButton")
             if (driveMode) {
-                drivebutton.innerHTML = `<h1>⚡</h1>
+                driveButton.innerHTML = `<h1>⚡</h1>
                     <h3>Start Drive</h3>`
-                drivebutton.setAttribute("style", "background-color:rgb(0, 211, 211)!important")
+                driveButton.setAttribute("style", "background-color:rgb(0, 211, 211)!important")
+                fetch("/stopRide")
             } else {
-                drivebutton.innerHTML = `<h1>🛑</h1>
+                driveButton.innerHTML = `<h1>🛑</h1>
                     <h3>Stop Drive</h3>`
-                drivebutton.setAttribute("style", "background-color:red!important")
-
+                driveButton.setAttribute("style", "background-color:red!important")
+                driveButton.setAttribute("disabled","")
+                setTimeout(function(){driveButton.removeAttribute("disabled")},6000)
             }
             driveMode = !driveMode
         }
         function getPosition(position) {
             if (!driveMode) return;
-            let o = fetch(`/pos?neww=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
+            if (!lat) {lat = position.coords.latitude; long = position.coords.longitude}
+            let o = fetch(`/pos?newL=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
             lat = position.coords.latitude
             long = position.coords.longitude
             let stop = o.then(function (res) { return res.text() })
@@ -117,6 +120,10 @@
                     if (data == "STOP") toggleDrive()
                 })
         }
+        window.addEventListener("beforeunload", function (e) {
+            if (driveMode)
+                fetch("/stopRide")
+        });
     </script>
 
 </body>

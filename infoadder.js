@@ -7,7 +7,7 @@ function replaceAll(str, find, replace) {
 module.exports = (static, userdata) => {
     //Username/profile instead of login buttom
     static = static.replace("</body>", `<script>if (document.cookie) {
-    let username = atob(document.cookie.split("=")[1].split(".")[0])
+    let username = atob(decodeURIComponent(document.cookie.split("=")[1].split(".")[0]))
     let loginbutton = document.getElementById("user")
     loginbutton.href = "/authenticated"
     loginbutton.innerHTML = username+" 😶"
