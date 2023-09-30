@@ -3,7 +3,7 @@ const fs = require("fs")
 let ride = {}
 let idleTicks = {}
 let speeds = {}
-const ecoDriving = require("./ecodriving.js")
+const ecoDriving = require("./ecoDriving.js")
 
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
