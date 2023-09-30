@@ -43,6 +43,13 @@
 <title>EcoWays</title>
 
 <body>
+    <span class="body">
+    </span>
+    <div class="speedometer">
+        <h1 id="speed">0</h1>
+        <p>km/h</p>
+    </div>
+    <iframe scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-62.04673002474011%2C16.95487694424327%2C-61.60521696321666%2C17.196751341562923&amp;layer=mapnik" style="border: 1px solid black" id="iframe"></iframe>
     <div class="homescreen">
         <div class="topscreen">
             <div class="logotop">
@@ -73,6 +80,8 @@
 
 
         </div>
+       
+   
 
     </div>
 
@@ -80,6 +89,7 @@
         let db = false
         var lat;
         var long;
+        
         if (!navigator.geolocation) {
             alert("Your browser doesn't support geolocation feature!")
         } else {
@@ -110,6 +120,7 @@
                 setTimeout(function(){driveButton.removeAttribute("disabled")},6000)
             }
             driveMode = !driveMode
+
         }
         function getPosition(position) {
             if (!driveMode) return;
@@ -126,6 +137,38 @@
             if (driveMode)
                 fetch("/stopRide")
         });
+    </script>
+    <script>
+        const body = document.querySelector(".body")
+        const speedometer = document.querySelector(".speedometer")
+        const button = document.getElementById('driveButton');
+        const mapembed = document.querySelector("#iframe");
+        mapembed.style.display = "none"
+        button.addEventListener('click', mapPop);
+        function mapPop(){
+           console.log(mapembed.style.display)
+            if (mapembed.style.display === "none") {
+                mapembed.style.display = "block"; 
+                button.style.zIndex = "1000";
+                speedometer.style.display = "flex";
+                button.style.position = "fixed";
+                button.style.bottom = "5px";
+                button.style.right = "50vw";
+                button.style.margin = "0px";
+                body.style.display ="block";
+            } else {
+                mapembed.style.display = "none";
+                speedometer.style.display = "none";
+                button.style.position ="relative";
+                button.style.bottom = "0px";
+                button.style.right = "0px";
+                button.style.margin = "0px 0px 70px 0px";
+                button.style.zIndex = "0";
+                body.style.display ="none";
+            }
+            
+    }
+        
     </script>
 
 </body>
