@@ -87,7 +87,9 @@ ride.stopRide = (req, res) => {
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
     db[username].data.points += pointsGained
     fs.writeFileSync(__dirname + "/db/users.json", JSON.stringify(db))
-    res.send("saved");
+    idleTicks[username] = 0;
+    speeds[username] = []
+    res.send({"ecoScore":ecoScore,"pointsGained":pointsGained,"averageSpeed":averageSpeed,"carbonEmissions":emissions,"totalDistance":distance,"fuelUsed":estimatedFuelUsed});
 }
 
 module.exports = ride

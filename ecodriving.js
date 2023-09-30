@@ -32,8 +32,7 @@ function calculateEcoScore(speedList) {
 // Returned: points, fuelUsed (L), CO2 released in kg
 module.exports = function ecoDriving(carType, speedList, distance) {
     const ecoScore = calculateEcoScore(speedList);
-    const points = distance * ecoScore * 10;
-    console.log(ecoScore,points)
+    const points = distance * ecoScore;
     const fuelUsed = calculateFuelUsed(carType, distance)
     return [Math.floor(points), fuelUsed, fuelUsed*2.3, ecoScore];
 };
