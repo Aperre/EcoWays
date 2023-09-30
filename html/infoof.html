@@ -46,7 +46,7 @@
                     <h1><span class="green">Eco</span><span class="white">Ways</span>🍃</h1>
                 </div>
                 <div class="navigation">
-                  <a href=",/index" class="roboto">Home<img src="/images/home.png"></a>
+                  <a href="./index" class="roboto">Home<img src="/images/home.png"></a>
                   <a href="./shop" class="roboto">Shop<img src="/images/store.png"></a>
                   <a href="./login" id="user" class="roboto">Login<img src="/images/user-interface.png"></a>
               </div>
@@ -55,30 +55,30 @@
                 <div id="model">
                     <p>Your car model</p>
                     <h1>${CARMODEL}</h1>
-                    <h1><span class="green1">[insert ecoscore]<br>(insert net points)</span></h1>
+                    <h1><span class="green1">EcoScore: ${ecoScore}/10<br>Points gained: ${points}</span></h1>
                 </div>
                 <img id="carfleet" src="/images/${CARMODEL}.png">
                <div class="info"> 
                     <div class="speed">
                         <canvas width="400" height="400"></canvas>
-                        <h3>[Insert Average Speed]</h1>
+                        <h3>${avgSpeed} km/H</h1>
                         <p>Average Speed🟢</p>
                     </div>
                     <div class="carbonemissions">
                         <img src="/images/co2.png">
-                        <h3>[Insert Carbon Emission Value]</h1>
-                        <p>Dangerous Level🔴</p>
+                        <h3>${carbonEmission} kg</h1>
+                        <p>CO2 Levels🔴</p>
                     </div>
                    
                     <div class="carbonemissions">
                         <img src="/images/distance.png">
-                        <h3>[Insert Distance Travelled]</h1>
+                        <h3>${distance} km</h1>
                         <p>Distance Travelled🟠</p>
                     </div>
                     <div class="carbonemissions1">
                         <img src="/images/oil.png">
-                        <h3>[Insert Gas Used]</h1>
-                        <p>➕Net Points➕</p>
+                        <h3>${GasUsed} L</h1>
+                        <p>➕Gas Used➕</p>
                     </div>
                </div>
                 <div class="tabsapp">

@@ -39,18 +39,16 @@ ride.updateLoc = (req, res) => {
     let loc;
     let { newL, old } = req.query;
     loc = newL.split("_");
-    let newLocation = { "lat": parseInt(loc[0]), "long": parseInt(loc[1]) }
-    if (old) {
-        loc = old.split("_")
-        let oldLocation = { "lat": parseInt(loc[0]), "long": parseInt(loc[1]) }
+    let newLocation = { "lat": parseFloat(loc[0]), "long": parseFloat(loc[1]) }
+    loc = old.split("_")
+    let oldLocation = { "lat": parseFloat(loc[0]), "long": parseFloat(loc[1]) }
 
-        //Check if idle
-        speed = calcDistance(newLocation["lat"], newLocation["long"], oldLocation["lat"], oldLocation["long"]) * 3.6 / 5
-    } else speed = 0;
+    //Check if idle
+    speed = calcDistance(newLocation["lat"], newLocation["long"], oldLocation["lat"], oldLocation["long"]) * 3.6 / 5
     if (speed < 5) {
         if (!idleTicks[username]) idleTicks[username] = 0
         idleTicks[username]++
-        if (idleTicks[username] >= 10) { res.send("STOP"); return; }
+        if (idleTicks[username] >= 100) { res.send("STOP"); return; }
     } else
         if (idleTicks[username])
             idleTicks[username] = 0;
@@ -77,15 +75,14 @@ ride.stopRide = (req, res) => {
     // Saving the data + giving points
     let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
     if (!rides[username]) rides[username] = [];
-    let distance = sum * 5 / 3.6
+    let distance = (sum * 5 / 3.6) /1000
     let userData = auth.getUserData(username)
-    let [pointsGained, estimatedFuelUsed] = ecoDriving(
+    let [pointsGained, estimatedFuelUsed, emissions, ecoScore] = ecoDriving(
         userData.data.car_model,
         speeds[username],
-        averageSpeed,
         distance
     )
-    rides[username].push({"averageFuel":estimatedFuelUsed,"averageSpeed": averageSpeed, "distance": distance, "points": pointsGained })
+    rides[username].push({"ecoScore":ecoScore,"pointsGained":pointsGained,"averageSpeed":averageSpeed,"carbonEmissions":emissions,"totalDistance":distance,"fuelUsed":estimatedFuelUsed})
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
     db[username].data.points += pointsGained
