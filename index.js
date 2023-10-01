@@ -1,7 +1,19 @@
 const express = require('express');
+const { readdirSync, existsSync, writeFileSync, createWriteStream } = require('fs');
+
+function createFile(name,contents){
+  createWriteStream(name).end(contents)
+}
+
+if (!existsSync(__dirname + "/db/OAuth.json")){
+  createFile(__dirname+"/db/OAuth.json","{}")
+  createFile(__dirname+"/db/rides.json","{}")
+  createFile(__dirname+"/db/users.json","{}")
+}
+
 const auth = require("./auth.js");
 const ride = require("./ride.js");
-const { readdirSync } = require('fs');
+
 
 const app = express();
 exports.app = app;
