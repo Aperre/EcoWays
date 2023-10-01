@@ -98,7 +98,7 @@ ride.stopRide = (req, res) => {
         speeds[username],
         distance
     )
-    let rideData = { "ecoScore": ecoScore, "pointsGained": pointsGained, "averageSpeed": averageSpeed.toFixed(3), "carbonEmissions": emissions.toFixed(3), "totalDistance": distance.toFixed(3), "fuelUsed": estimatedFuelUsed.toFixed(3) }
+    let rideData = { "ecoScore": ecoScore, "pointsGained": pointsGained, "averageSpeed": averageSpeed.toFixed(1), "carbonEmissions": emissions.toFixed(2), "totalDistance": distance.toFixed(3), "fuelUsed": estimatedFuelUsed.toFixed(1), "date": new Date()}
     rides[username].push(rideData)
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
@@ -109,7 +109,7 @@ ride.stopRide = (req, res) => {
     speeds[username] = []
     res.send(rideData);
     // Gets Date:
-    const date = new Date(); 
+    
    
 }
 
@@ -127,9 +127,10 @@ ride.showRides = (req, res) => {
     let ridesHTML = "";
     let userData = auth.getUserData(username);
     let CARMODEL = userData.data.car_model;
-    
+
     for (let i = rides[username].length - 1; i >= 0; i--) {
         let POINTS = rides[username][i].pointsGained
+        let driveDate = rides[username][i].date
         ridesHTML += `
         <a href="./infoof?id=${i}" class="box">
             <div class="info">
@@ -137,7 +138,7 @@ ride.showRides = (req, res) => {
                     <p></p>
                     <p>${CARMODEL}</p>
                     <p style="color:rgb(0, 210, 0)">Points: ${POINTS}</p>
-                    <p>{Insert Date}</p>
+                    <p>${driveDate}</p>
                 </div>
                 <img src="/images/${CARMODEL}.png">
             </div>
