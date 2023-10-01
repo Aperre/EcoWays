@@ -1,8 +1,10 @@
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+function replaceAll(str, arr) {
+    for (let i = 0; i < arr.length; i++)
+        str = str.replace(new RegExp(escapeRegExp(arr[i][0]), 'g'), arr[i][1]);
+    return str;
 }
 module.exports = (static, userdata) => {
     //Username/profile instead of login buttom
@@ -15,10 +17,12 @@ module.exports = (static, userdata) => {
     </body>`)
 
     //adding Info as needed
-    static = replaceAll(static, "${USERNAME}", userdata.username)
-    static = replaceAll(static, "${PHONE}", userdata.phone)
-    static = replaceAll(static, "${CARMODEL}", userdata.data.car_model)
-    static = replaceAll(static, "${POINTS}", userdata.data.points)
+    static = replaceAll(static, [
+        ["${USERNAME}", userdata.username],
+        ["${PHONE}", userdata.phone],
+        ["${CARMODEL}", userdata.data.car_model],
+        ["${POINTS}", userdata.data.points]
+    ])
 
     return static
 }

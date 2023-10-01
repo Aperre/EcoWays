@@ -34,5 +34,5 @@ module.exports = function ecoDriving(carType, speedList, distance) {
     const ecoScore = calculateEcoScore(speedList);
     const points = distance * ecoScore;
     const fuelUsed = calculateFuelUsed(carType, distance)
-    return [Math.floor(points), fuelUsed, fuelUsed*2.3, ecoScore];
+    return [Math.floor(points), fuelUsed, fuelUsed * 2.3, ecoScore];
 };

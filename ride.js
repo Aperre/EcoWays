@@ -4,6 +4,22 @@ let ride = {}
 let idleTicks = {}
 let speeds = {}
 const ecoDriving = require("./ecoDriving.js")
+const infoAdder = require("./infoadder.js")
+let reportsPage = fs.readFileSync(__dirname + "/html/reports.html", { encoding: "utf8" })
+let infoOfPage = fs.readFileSync(__dirname + "/html/infoof.html", { encoding: "utf8" })
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function replaceBulkAll(str, arr) {
+    for (let i = 0; i < arr.length; i++)
+        str = str.replace(new RegExp(escapeRegExp(arr[i][0]), 'g'), arr[i][1]);
+    return str;
+}
 
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
@@ -56,7 +72,7 @@ ride.updateLoc = (req, res) => {
     //Save speed of ride
     if (!speeds[username]) speeds[username] = [speed]
     else speeds[username].push(speed);
-    res.send("updated")
+    res.send(speed.toString())
 }
 
 ride.stopRide = (req, res) => {
@@ -75,21 +91,85 @@ ride.stopRide = (req, res) => {
     // Saving the data + giving points
     let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
     if (!rides[username]) rides[username] = [];
-    let distance = (sum * 5 / 3.6) /1000
+    let distance = (sum * 5 / 3.6) / 1000
     let userData = auth.getUserData(username)
     let [pointsGained, estimatedFuelUsed, emissions, ecoScore] = ecoDriving(
         userData.data.car_model,
         speeds[username],
         distance
     )
-    rides[username].push({"ecoScore":ecoScore,"pointsGained":pointsGained,"averageSpeed":averageSpeed,"carbonEmissions":emissions,"totalDistance":distance,"fuelUsed":estimatedFuelUsed})
+    let rideData = { "ecoScore": ecoScore, "pointsGained": pointsGained, "averageSpeed": averageSpeed.toFixed(3), "carbonEmissions": emissions.toFixed(3), "totalDistance": distance.toFixed(3), "fuelUsed": estimatedFuelUsed.toFixed(3) }
+    rides[username].push(rideData)
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
-    db[username].data.points += pointsGained
+    if (db[username].data.points <= pointsGained) { db[username].data.points = 0 }
+    else db[username].data.points += pointsGained;
     fs.writeFileSync(__dirname + "/db/users.json", JSON.stringify(db))
     idleTicks[username] = 0;
     speeds[username] = []
-    res.send({"ecoScore":ecoScore,"pointsGained":pointsGained,"averageSpeed":averageSpeed,"carbonEmissions":emissions,"totalDistance":distance,"fuelUsed":estimatedFuelUsed});
+    res.send(rideData);
+}
+
+ride.showRides = (req, res) => {
+    // Verify user
+    let token = auth.token.get(req);
+    if (!token) return;
+    let username = auth.token.validate(token)
+    if (!username) return;
+
+    let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
+    if (!rides[username]) rides[username] = [];
+    let ridesHTML = "";
+    let userData = auth.getUserData(username);
+    let CARMODEL = userData.data.car_model;
+    for (let i = rides[username].length - 1; i >= 0; i--) {
+        let POINTS = rides[username][i].pointsGained
+        ridesHTML += `
+        <a href="./infoof?id=${i}" class="box">
+        <div class="info">
+            <div class="textinfo">
+                <p></p>
+                <p>${CARMODEL}</p>
+                <p style="color:rgb(0, 210, 0)">Points: ${POINTS}</p>
+            </div>
+            <img src="/images/${CARMODEL}.png">
+        </div>
+        <div class="status">
+            <div class="statusinfo">
+                <p>  🔴 Completed</p>
+            </div>
+        </div>
+    </a>`
+    }
+    let page = replaceAll(infoAdder(reportsPage, userData), "${RIDES}", ridesHTML)
+    res.send(page)
+}
+
+ride.infoOf = (req, res) => {
+    // Verify user
+    let token = auth.token.get(req);
+    if (!token) return;
+    let username = auth.token.validate(token)
+    if (!username) return;
+
+    let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
+    let { id } = req.query;
+    //Verifying if the ride exists
+    if (!id || !rides[username] || rides[username].length <= id) { res.send("Invalid Ride ID"); return }
+
+    //Load page with ride data
+    let userData = auth.getUserData(username)
+    let rideData = rides[username][id]
+    let page = infoAdder(infoOfPage, userData)
+    page = replaceBulkAll(page, [
+        ["${ecoScore}", rideData.ecoScore],
+        ["${points}", rideData.pointsGained],
+        ["${avgSpeed}", rideData.averageSpeed],
+        ["${carbonEmission}", rideData.carbonEmissions],
+        ["${distance}", rideData.totalDistance],
+        ["${GasUsed}", rideData.fuelUsed]
+    ])
+    res.send(page)
 }
 
 module.exports = ride
