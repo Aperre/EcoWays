@@ -22,21 +22,21 @@ button:hover{
 .navigation a{
     transition: 0.5s ease-in-out;
 }
+
 *{
     margin:0;
     overflow-x:hidden !important; 
     width: 100%;
 }
 body{
-    display: flex;
-    flex-direction: column;
+
     background-color:rgb(228, 228, 228);
     font-family: 'Roboto', sans-serif;  
 }
 
 .homescreen{
     width:100%;
-    height:900px;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -57,11 +57,13 @@ body{
 }
 .restofhome{
     width:100%;
-    height:820px;
+    height:fit-content;
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
     align-items: center;
+    display:flex;
+    flex-direction: column;
   
 }
 
@@ -161,20 +163,15 @@ a{
 
 .box{
     max-width:900px;
-    margin:0;
+   
     background-color: white;
     border-radius: 50px;
-    margin-bottom: 15px;
+
     font-family: 'Roboto', sans-serif;  
+   
+
 }
-.progress{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top:30px;
-    margin-bottom: 30px;
-    font-family: 'Roboto', sans-serif;  
-}
+
 
 .title h1{
     text-align: center;
@@ -191,12 +188,21 @@ a{
 
 
 .previous{
-    display: flex;
+    display:flex;
     align-items: center;
     flex-direction: column;
     margin-top:30px;
+    margin-bottom: 30px;
     font-family: 'Roboto', sans-serif;  
-    margin-bottom: 60px;
+    height:fit-content;
+}
+.box{
+    max-width:900px; /* Sets maximum width to 900px */
+    margin:0; /* Removes margins */
+    background-color: white; /* Sets background color to white */
+    border-radius: 50px; /* Rounds the corners of the box */
+    margin-bottom: 50px; /* Adds bottom margin to the box for spacing */
+    font-family: 'Roboto', sans-serif;  /* Sets the font for the box class */
 }
 .previous h2{
     text-align: center;
@@ -218,6 +224,7 @@ a{
 .title{
     margin-top:20px;
     width:fit-content;
+    height:fit-content;
     border-bottom: 3px solid black;
 }
 

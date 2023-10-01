@@ -76,7 +76,7 @@ ride.updateLoc = (req, res) => {
 }
 
 ride.stopRide = (req, res) => {
-
+    
     // Verify user
     let token = auth.token.get(req);
     if (!token) return;
@@ -108,6 +108,9 @@ ride.stopRide = (req, res) => {
     idleTicks[username] = 0;
     speeds[username] = []
     res.send(rideData);
+    // Gets Date:
+    const date = new Date(); 
+   
 }
 
 ride.showRides = (req, res) => {
@@ -119,27 +122,31 @@ ride.showRides = (req, res) => {
 
     let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
     if (!rides[username]) rides[username] = [];
+    
+    
     let ridesHTML = "";
     let userData = auth.getUserData(username);
     let CARMODEL = userData.data.car_model;
+    
     for (let i = rides[username].length - 1; i >= 0; i--) {
         let POINTS = rides[username][i].pointsGained
         ridesHTML += `
         <a href="./infoof?id=${i}" class="box">
-        <div class="info">
-            <div class="textinfo">
-                <p></p>
-                <p>${CARMODEL}</p>
-                <p style="color:rgb(0, 210, 0)">Points: ${POINTS}</p>
+            <div class="info">
+                <div class="textinfo">
+                    <p></p>
+                    <p>${CARMODEL}</p>
+                    <p style="color:rgb(0, 210, 0)">Points: ${POINTS}</p>
+                    <p>{Insert Date}</p>
+                </div>
+                <img src="/images/${CARMODEL}.png">
             </div>
-            <img src="/images/${CARMODEL}.png">
-        </div>
-        <div class="status">
-            <div class="statusinfo">
-                <p>  🔴 Completed</p>
+            <div class="status">
+                <div class="statusinfo">
+                    <p> 🔴Completed </p>
+                </div>
             </div>
-        </div>
-    </a>`
+        </a>`
     }
     let page = replaceAll(infoAdder(reportsPage, userData), "${RIDES}", ridesHTML)
     res.send(page)
@@ -151,7 +158,6 @@ ride.infoOf = (req, res) => {
     if (!token) return;
     let username = auth.token.validate(token)
     if (!username) return;
-
     let rides = JSON.parse(fs.readFileSync(__dirname + "/db/rides.json"))
     let { id } = req.query;
     //Verifying if the ride exists
