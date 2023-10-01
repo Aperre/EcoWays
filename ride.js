@@ -1,6 +1,5 @@
 const auth = require("./auth.js")
 const fs = require("fs")
-const { format } = require("prettify-date")
 let ride = {}
 let idleTicks = {}
 let speeds = {}
@@ -25,6 +24,7 @@ function replaceBulkAll(str, arr) {
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
+
 function calcDistance(lat1, lon1, lat2, lon2) {
     // Using the haversine formula
     // https://en.wikipedia.org/wiki/Haversine_formula
@@ -42,6 +42,37 @@ function calcDistance(lat1, lon1, lat2, lon2) {
 
     let d = R * c;
     return d;
+}
+
+//https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site
+function fromNow(date, nowDate = Date.now(), rft = new Intl.RelativeTimeFormat('en', { numeric: "auto" })) {
+    const SECOND = 1000;
+    const MINUTE = 60 * SECOND;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+    const WEEK = 7 * DAY;
+    const YEAR = 365 * DAY;
+    const MONTH = YEAR / 12;
+    const intervals = [
+        { ge: YEAR, divisor: YEAR, unit: 'year' },
+        { ge: MONTH, divisor: MONTH, unit: 'month' },
+        { ge: WEEK, divisor: WEEK, unit: 'week' },
+        { ge: DAY, divisor: DAY, unit: 'day' },
+        { ge: HOUR, divisor: HOUR, unit: 'hour' },
+        { ge: MINUTE, divisor: MINUTE, unit: 'minute' },
+        { ge: 30 * SECOND, divisor: SECOND, unit: 'seconds' },
+        { ge: 0, divisor: 1, text: 'just now' },
+    ];
+    const now = typeof nowDate === 'object' ? nowDate.getTime() : new Date(nowDate).getTime();
+    const diff = now - (typeof date === 'object' ? date : new Date(date)).getTime();
+    const diffAbs = Math.abs(diff);
+    for (const interval of intervals) {
+        if (diffAbs >= interval.ge) {
+            const x = Math.round(Math.abs(diff) / interval.divisor);
+            const isFuture = diff < 0;
+            return interval.unit ? rft.format(isFuture ? x : -x, interval.unit) : interval.text;
+        }
+    }
 }
 
 ride.updateLoc = (req, res) => {
@@ -106,7 +137,7 @@ ride.stopRide = (req, res) => {
         "carbonEmissions": emissions.toFixed(2),
         "totalDistance": distance.toFixed(3),
         "fuelUsed": estimatedFuelUsed.toFixed(1),
-        "date": format(new Date())}
+        "date": new Date()}
     rides[username].push(rideData)
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
@@ -138,7 +169,7 @@ ride.showRides = (req, res) => {
 
     for (let i = rides[username].length - 1; i >= 0; i--) {
         let POINTS = rides[username][i].pointsGained
-        let driveDate = rides[username][i].date
+        let driveDate = fromNow(new Date(rides[username][i].date))
         ridesHTML += `
         <a href="./infoof?id=${i}" class="box">
             <div class="info">
