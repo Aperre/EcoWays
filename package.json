@@ -5,9 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "prettify-date": "^1.4.0"
   },
-  "devDependencies": {},
   "scripts": {
     "run": "node index.js"
   },

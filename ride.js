@@ -1,5 +1,6 @@
 const auth = require("./auth.js")
 const fs = require("fs")
+const { format } = require("prettify-date")
 let ride = {}
 let idleTicks = {}
 let speeds = {}
@@ -98,7 +99,14 @@ ride.stopRide = (req, res) => {
         speeds[username],
         distance
     )
-    let rideData = { "ecoScore": ecoScore, "pointsGained": pointsGained, "averageSpeed": averageSpeed.toFixed(1), "carbonEmissions": emissions.toFixed(2), "totalDistance": distance.toFixed(3), "fuelUsed": estimatedFuelUsed.toFixed(1), "date": new Date()}
+    let rideData = {
+        "ecoScore": ecoScore,
+        "pointsGained": pointsGained,
+        "averageSpeed": averageSpeed.toFixed(1),
+        "carbonEmissions": emissions.toFixed(2),
+        "totalDistance": distance.toFixed(3),
+        "fuelUsed": estimatedFuelUsed.toFixed(1),
+        "date": format(new Date())}
     rides[username].push(rideData)
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
