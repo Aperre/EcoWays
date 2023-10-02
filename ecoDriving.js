@@ -1,3 +1,4 @@
+const aiEfficiency = require("./ai.js");
 const carTypes = { "Honda Civic": 0.06, "Toyota Corolla": 0.07 };
 
 function calculateAverageSpeed(speedList) {
@@ -31,7 +32,7 @@ function calculateEcoScore(speedList) {
 }
 // Returned: points, fuelUsed (L), CO2 released in kg
 module.exports = function ecoDriving(carType, speedList, distance) {
-    const ecoScore = calculateEcoScore(speedList);
+    const ecoScore = calculateEcoScore(speedList) * aiEfficiency(carType, speedList, distance);
     const points = distance * ecoScore;
     const fuelUsed = calculateFuelUsed(carType, distance)
     return [Math.floor(points), fuelUsed, fuelUsed * 2.3, ecoScore];
