@@ -49,7 +49,7 @@
         <h1 id="speed">0</h1>
         <p>km/h</p>
     </div>
-    <iframe scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-62.04673002474011%2C16.95487694424327%2C-61.60521696321666%2C17.196751341562923&amp;layer=mapnik" style="border: 1px solid black" id="iframe"></iframe>
+    <iframe scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?layer=mapnik" style="border: 1px solid black" id="iframe"></iframe>
     <div class="homescreen">
         <div class="topscreen">
             <div class="logotop">
@@ -128,6 +128,7 @@
             let o = fetch(`/pos?newL=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
             lat = position.coords.latitude
             long = position.coords.longitude
+            //mapembed.src = `https://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox=${long - 0.05},${lat - 0.05},${long + 0.05},${lat + 0.05}`;
             let stop = o.then(function (res) { return res.text() })
                 .then(function (data) {
                     if (data == "STOP") toggleDrive()
@@ -148,6 +149,7 @@
         function mapPop(){
            console.log(mapembed.style.display)
             if (mapembed.style.display === "none") {
+                navigator.geolocation.getCurrentPosition(pos => mapembed.src = `https://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox=${pos.coords.longitude - 0.05},${pos.coords.latitude - 0.05},${pos.coords.longitude + 0.05},${pos.coords.latitude + 0.05}`);
                 mapembed.style.display = "block"; 
                 button.style.zIndex = "1000";
                 speedometer.style.display = "flex";
