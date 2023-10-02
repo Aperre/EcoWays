@@ -169,14 +169,15 @@ a{
     font-family: 'Roboto', sans-serif;  
 }
 
-#iframe{
-    display: none;
+#div_map {
     z-index: 100;
+    visibility: hidden;
     height: calc(100vh - 110px);
-    width: 100%;
+    width: 100vw;
     position: fixed;
-    top:0px;
+    top: 0px;
 }
+
 .body{
     background-color:rgb(207, 207, 207);
     z-index:50;
