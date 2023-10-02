@@ -39,6 +39,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 <title>EcoWays</title>
 
@@ -49,7 +52,6 @@
         <h1 id="speed">0</h1>
         <p>km/h</p>
     </div>
-    <iframe scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?layer=mapnik" style="border: 1px solid black" id="iframe"></iframe>
     <div class="homescreen">
         <div class="topscreen">
             <div class="logotop">
@@ -61,6 +63,7 @@
                 <a href="./login" id="user" class="roboto">Login<img src="/images/user-interface.png"></a>
             </div>
         </div>
+        <div id="iframe"></div>
         <div class="restofhome">
             <div id="model">
                 <p>Your car model</p>
@@ -107,28 +110,27 @@
             let driveButton = document.getElementById("driveButton")
             if (driveMode) {
                 driveButton.innerHTML = `<h1>⚡</h1>
-                    <h3>Start Drive</h3>`
+                        <h3>Start Drive</h3>`
                 driveButton.setAttribute("style", "background-color:rgb(0, 211, 211)!important")
                 fetch("/stopRide")
                 lat = undefined
                 long = undefined
             } else {
                 driveButton.innerHTML = `<h1>🛑</h1>
-                    <h3>Stop Drive</h3>`
+                        <h3>Stop Drive</h3>`
                 driveButton.setAttribute("style", "background-color:red!important")
-                driveButton.setAttribute("disabled","")
-                setTimeout(function(){driveButton.removeAttribute("disabled")},6000)
+                driveButton.setAttribute("disabled", "")
+                setTimeout(function () { driveButton.removeAttribute("disabled") }, 6000)
             }
             driveMode = !driveMode
 
         }
         function getPosition(position) {
             if (!driveMode) return;
-            if (!lat) {lat = position.coords.latitude; long = position.coords.longitude}
+            if (!lat) { lat = position.coords.latitude; long = position.coords.longitude }
             let o = fetch(`/pos?newL=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
             lat = position.coords.latitude
             long = position.coords.longitude
-            //mapembed.src = `https://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox=${long - 0.05},${lat - 0.05},${long + 0.05},${lat + 0.05}`;
             let stop = o.then(function (res) { return res.text() })
                 .then(function (data) {
                     if (data == "STOP") toggleDrive()
@@ -139,38 +141,79 @@
                 fetch("/stopRide")
         });
     </script>
+
+    <!-- leaflet js  -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        // Map initialization
+        var map = L.map('iframe').setView([14.0860746, 100.608406], 6);
+
+        //osm layer
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        osm.addTo(map);
+
+        if (!navigator.geolocation) {
+            console.log("Your browser doesn't support geolocation feature!")
+        } else {
+            setInterval(() => {
+                navigator.geolocation.getCurrentPosition(getPosition, notLocal)
+            }, 5000);
+        }
+
+        var circle;
+        function notLocal() {
+            alert("Either you did not accept the GPS permission or you are not running this locally so this feature will not work as it requires HTTPS")
+        }
+
+        function getPosition(position) {
+            var lat = position.coords.latitude
+            var long = position.coords.longitude
+            var accuracy = position.coords.accuracy
+
+            if (circle) {
+                map.removeLayer(circle)
+            }
+
+            circle = L.circle([lat, long], { radius: accuracy })
+
+            var featureGroup = L.featureGroup([circle]).addTo(map)
+
+            map.fitBounds(featureGroup.getBounds())
+            fetch(`/pos?lat=${lat}&long=${long}`)
+        }
+
         const body = document.querySelector(".body")
         const speedometer = document.querySelector(".speedometer")
         const button = document.getElementById('driveButton');
         const mapembed = document.querySelector("#iframe");
         mapembed.style.display = "none"
         button.addEventListener('click', mapPop);
-        function mapPop(){
-           console.log(mapembed.style.display)
+        function mapPop() {
+            console.log(mapembed.style.display)
             if (mapembed.style.display === "none") {
-                navigator.geolocation.getCurrentPosition(pos => mapembed.src = `https://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox=${pos.coords.longitude - 0.05},${pos.coords.latitude - 0.05},${pos.coords.longitude + 0.05},${pos.coords.latitude + 0.05}`);
-                mapembed.style.display = "block"; 
+                navigator.geolocation.getCurrentPosition(getPosition);
+                mapembed.style.display = "block";
                 button.style.zIndex = "1000";
                 speedometer.style.display = "flex";
                 button.style.position = "fixed";
                 button.style.bottom = "5px";
                 button.style.right = "50vw";
                 button.style.margin = "0px";
-                body.style.display ="block";
+                body.style.display = "block";
             } else {
                 mapembed.style.display = "none";
                 speedometer.style.display = "none";
-                button.style.position ="relative";
+                button.style.position = "relative";
                 button.style.bottom = "0px";
                 button.style.right = "0px";
                 button.style.margin = "0px 0px 70px 0px";
                 button.style.zIndex = "0";
-                body.style.display ="none";
+                body.style.display = "none";
             }
-            
-    }
-        
+        }
+
     </script>
 
 </body>

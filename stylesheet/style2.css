@@ -13,7 +13,7 @@ button:hover{
 }
 *{
     margin:0;
-    overflow-x:hidden !important; 
+    overflow-x: visible; 
     width: 100%;
 }
 body{
@@ -169,15 +169,13 @@ a{
     font-family: 'Roboto', sans-serif;  
 }
 
-iframe{
+#iframe{
     display: none;
     z-index: 100;
     height: calc(100vh - 110px);
-    width:100vw;
-    position:fixed;
+    width: 100%;
+    position: fixed;
     top:0px;
-
-
 }
 .body{
     background-color:rgb(207, 207, 207);
