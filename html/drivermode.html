@@ -131,9 +131,22 @@
             let o = fetch(`/pos?newL=${position.coords.latitude}_${position.coords.longitude}&old=${lat}_${long}`)
             lat = position.coords.latitude
             long = position.coords.longitude
+            var accuracy = position.coords.accuracy
+
+            if (circle) {
+                map.removeLayer(circle)
+            }
+
+            circle = L.circle([lat, long], { radius: accuracy })
+
+            var featureGroup = L.featureGroup([circle]).addTo(map)
+
+            map.fitBounds(featureGroup.getBounds())
+            let speedo = document.querySelector("#speed")
             let stop = o.then(function (res) { return res.text() })
                 .then(function (data) {
-                    if (data == "STOP") toggleDrive()
+                    if (data == "STOP") {toggleDrive()}
+                    else {speedo.innerHTML=data}
                 })
         }
         window.addEventListener("beforeunload", function (e) {
@@ -165,23 +178,6 @@
         var circle;
         function notLocal() {
             alert("Either you did not accept the GPS permission or you are not running this locally so this feature will not work as it requires HTTPS")
-        }
-
-        function getPosition(position) {
-            var lat = position.coords.latitude
-            var long = position.coords.longitude
-            var accuracy = position.coords.accuracy
-
-            if (circle) {
-                map.removeLayer(circle)
-            }
-
-            circle = L.circle([lat, long], { radius: accuracy })
-
-            var featureGroup = L.featureGroup([circle]).addTo(map)
-
-            map.fitBounds(featureGroup.getBounds())
-            fetch(`/pos?lat=${lat}&long=${long}`)
         }
 
         const body = document.querySelector(".body")

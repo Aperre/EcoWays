@@ -104,7 +104,7 @@ ride.updateLoc = (req, res) => {
     //Save speed of ride
     if (!speeds[username]) speeds[username] = [speed]
     else speeds[username].push(speed);
-    res.send(speed.toString())
+    res.send(speed.toFixed(1).toString())
 }
 
 ride.stopRide = (req, res) => {
@@ -141,15 +141,11 @@ ride.stopRide = (req, res) => {
     rides[username].push(rideData)
     fs.writeFileSync(__dirname + "/db/rides.json", JSON.stringify(rides))
     let db = JSON.parse(fs.readFileSync(__dirname + "/db/users.json"))
-    if (db[username].data.points <= pointsGained) { db[username].data.points = 0 }
-    else db[username].data.points += pointsGained;
+    db[username].data.points += pointsGained;
     fs.writeFileSync(__dirname + "/db/users.json", JSON.stringify(db))
     idleTicks[username] = 0;
     speeds[username] = []
     res.send(rideData);
-    // Gets Date:
-    
-   
 }
 
 ride.showRides = (req, res) => {
