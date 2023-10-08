@@ -1,6 +1,12 @@
 # EcoWays 🌿
 ### Project for VirtualHackathon.
-This is a prototype of an app idea called EcoWays 🌿. It is unfinished but it will be finished if this project passes the qualification round
+This is a prototype of a webapp idea called EcoWays 🌿.
+It is unfinished but has some functional features.
+#### Features
+- **Track you carbon footprint**
+- **Track fuel usage**
+- **Rewards you with points for your drives**
+- **Use points to buy rides to buy uber rides**
 ### Initialization:
 First install the required modules:
 ```
@@ -11,5 +17,3 @@ To run:
 $ npm run run
 ```
 It will run in port 8080
-or
-use our already up and running website: [Here](http://nikitashokin.ru:8080/)
